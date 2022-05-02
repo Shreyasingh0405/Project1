@@ -1,15 +1,25 @@
-const authorModel= require("../models/authorModel")
+const AuthorModel = require("../models/authorModel")
 
-const createUser= async function (req, res) {
-    let data= req.body
-    let savedData= await UserModel.create(data)
-    res.send({msg: savedData})
+const createAuthor1 = async function (req, res) {
+    try {
+        let data = req.body
+        if (Object.keys(data).length != 0) {
+            let savedData = await AuthorModel.create(data)
+            res.status(201).send({ msg: savedData })            // change to 201
+        }
+        else {
+            res.status(400).send({ msg: "Bad Request" })      // (400) = {the server cannot or will not process the request due to something that is perceived to be a client error}
+        }
+    }
+    catch (err) {
+        console.log(err)
+        res.status(500).send({ msg: "error", err: err.message })
+    }
 }
 
-const getUsersData= async function (req, res) {
-    let allUsers= await authorModel.find()
-    res.send({msg: allUsers})
-}
 
-module.exports.createUser= createUser
-module.exports.getUsersData= getUsersData
+
+ module.exports.createAuthor1 = createAuthor1
+
+
+   
